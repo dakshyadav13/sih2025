@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ADMIN DASHBOARD</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Itim&family=Noto+Sans+JP:wght@100..900&display=swap");
+      
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: var(--font_one);
+      }
+      
+      :root {
+        --main_bg_color: #087f6d;
+        --font_heading_color: #087f6d;
+        --font_size_heading: clamp(1.2rem, 4vw, 2rem);
+        --font_size_paragraph: clamp(1rem, 3vw, 1.5rem);
+        --font_one: "Itim", cursive;
+        --font-two: "Noto Sans JP", sans-serif;
+      }
+
+      /* Navigation - Mobile First */
+      nav {
+        width: 100%;
+        font-size: clamp(1.5rem, 6vw, 4rem);
+        background-color: var(--main_bg_color);
+        font-family: var(--font-two);
+        text-align: center;
+        color: white;
+        letter-spacing: clamp(2px, 2vw, 20px);
+        padding: 10px 5px;
+      }
+
+      /* Container - Mobile First (Stacked Layout) */
+      .container {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        min-height: calc(100vh - 80px);
+      }
+
+      /* Sidebar - Mobile First */
+      .container .sidebar {
+        width: 100%;
+        background-color: var(--main_bg_color);
+        min-height: 200px;
+        display: flex;
+        align-content: center;
+        justify-content: center;
+        border-radius: 0;
+        overflow: hidden;
+        order: 1;
+      }
+
+      .container .sidebar ul {
+        list-style: none;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        flex-wrap: wrap;
+        padding: 10px;
+        gap: 10px;
+      }
+
+      .container .sidebar ul li {
+        text-align: center;
+        padding: 15px 10px;
+        cursor: pointer;
+        transition: all 300ms ease-in-out;
+        border-radius: 8px;
+        flex: 1;
+        min-width: 120px;
+      }
+
+      .container .sidebar ul li:hover {
+        background-color: #55837d4d;
+      }
+
+      .container .sidebar ul li a {
+        text-decoration: none;
+        color: white;
+        font-size: clamp(0.8rem, 2.5vw, var(--font_size_heading));
+        text-transform: capitalize;
+        line-height: 1.2;
+      }
+
+      /* Section CSS - Mobile First */
+      .container_section {
+        width: 100%;
+        padding: 20px 15px;
+        display: none;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        order: 2;
+      }
+
+      .container_section.active {
+        display: flex;
+      }
+
+      .section_heading {
+        font-size: var(--font_size_heading);
+        color: var(--font_heading_color);
+        text-decoration: underline;
+        margin: 20px 0;
+        font-weight: 700;
+        text-align: center;
+      }
+
+      .section_paragraph {
+        font-size: var(--font_size_paragraph);
+        width: 100%;
+        max-width: 600px;
+        text-align: center;
+        margin-bottom: 20px;
+        line-height: 1.4;
+        padding: 0 10px;
+      }
+
+      .section_image {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .section_image img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 8px;
+      }
+
+      /* Tablet Styles - 768px and up */
+      @media (min-width: 768px) {
+        nav {
+          padding: 15px 10px;
+        }
+
+        .container {
+          flex-direction: row;
+        }
+
+        .container .sidebar {
+          width: 35%;
+          min-height: calc(100vh - 100px);
+          border-top-right-radius: 100px;
+          border-bottom-right-radius: 100px;
+          order: 0;
+        }
+
+        .container .sidebar ul {
+          flex-direction: column;
+          height: 90%;
+          justify-content: space-around;
+          gap: 0;
+          padding: 20px;
+        }
+
+        .container .sidebar ul li {
+          width: 100%;
+          padding: 25px 15px;
+          min-width: auto;
+        }
+
+        .container_section {
+          width: 65%;
+          padding: 40px 30px;
+          order: 1;
+        }
+
+        .section_paragraph {
+          width: 80%;
+          margin-bottom: 30px;
+        }
+
+        .section_heading {
+          margin: 30px 0;
+        }
+      }
+
+      /* Desktop Styles - 1024px and up */
+      @media (min-width: 1024px) {
+        .container .sidebar {
+          width: 48%;
+          border-top-right-radius: 214px;
+          border-bottom-right-radius: 214px;
+        }
+
+        .container .sidebar ul li {
+          padding: 30px 20px;
+        }
+
+        .container_section {
+          width: 52%;
+          padding: 50px 40px;
+        }
+
+        .section_paragraph {
+          width: 70%;
+        }
+
+        .section2 .section_paragraph {
+          width: 85%;
+        }
+      }
+
+      /* Large Desktop Styles - 1200px and up */
+      @media (min-width: 1200px) {
+        .container .sidebar ul li {
+          padding: 35px 25px;
+        }
+
+        .section_paragraph {
+          max-width: 500px;
+        }
+
+        .section2 .section_paragraph {
+          max-width: 600px;
+        }
+      }
+
+      /* Ultra-wide Screens - 1600px and up */
+      @media (min-width: 1600px) {
+        nav {
+          font-size: 5rem;
+          letter-spacing: 25px;
+        }
+
+        .container .sidebar ul li a {
+          font-size: 2.2rem;
+        }
+
+        .section_heading {
+          font-size: 2.5rem;
+        }
+
+        .section_paragraph {
+          font-size: 1.8rem;
+        }
+      }
+
+      /* Very Small Mobile Devices - 320px and below */
+      @media (max-width: 320px) {
+        .container .sidebar ul {
+          flex-direction: column;
+          gap: 5px;
+        }
+
+        .container .sidebar ul li {
+          min-width: 100%;
+          padding: 12px 8px;
+        }
+
+        .section_paragraph {
+          font-size: 0.9rem;
+          padding: 0 5px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav>ADMIN DASHBOARD</nav>
+
+    <section class="container">
+      <div class="sidebar">
+        <ul>
+          <li onclick="showhidesection1()">
+            <a href="#">Overall mental health trends</a>
+          </li>
+          <li onclick="showhidesection2()">
+            <a href="#">category breakdown</a>
+          </li>
+          <li><a href="#">Crisis Heatmap</a></li>
+          <li>
+            <a href="#">Suggestion by <span style="color: cyan">AI</span></a>
+          </li>
+          <li><a href="#">Anonymous Feedback Wall</a></li>
+        </ul>
+      </div>
+      
+      <div class="container_section section1">
+        <div class="section_heading">CAMPUS MENTAL HEALTH OVERVIEW</div>
+        <div class="section_paragraph">
+          This week, 42% students reported good mental health, while 33% showed
+          mild stress, 20% moderate stress, and 5% severe stress.
+        </div>
+        <div class="section_image">
+          <img src="../static/adminassests/pie%20chart_stress.png" alt="Mental Health Distribution Chart" />
+        </div>
+      </div>
+      
+      <div class="container_section section2">
+        <div class="section_heading">Mental Health Distribution by Category</div>
+        <div class="section_paragraph">
+          Participation numbers per test → <br> "General Test: 120 students |
+          Anxiety Test: 90 students | Depression Test: 60 students"<br> Average risk
+          level within each test → <br> "In Overthinking Meter, 45% students
+          fell in High range."
+        </div>
+        <div class="section_image">
+          <img src="../static/adminassests/Graph.png" alt="Mental Health Category Distribution Graph" />
+        </div>
+      </div>
+    </section>
+
+    <script>
+      function showhidesection1() {
+        const section2 = document.querySelector(".section2");
+        const section1 = document.querySelector(".section1");
+        
+        if (section2.classList.contains("active")) {
+          section2.classList.remove("active");
+        }
+        section1.classList.toggle("active");
+      }
+      
+      function showhidesection2() {
+        const section1 = document.querySelector(".section1");
+        const section2 = document.querySelector(".section2");
+        
+        if (section1.classList.contains("active")) {
+          section1.classList.remove("active");
+        }
+        section2.classList.toggle("active");
+      }
+    </script>
+  </body>
+</html>

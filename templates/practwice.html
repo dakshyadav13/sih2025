@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        nav{
+            height: 10vh;
+            width: 100vw;
+            background-color: aquamarine;
+            color: black;
+        }
+        nav ul{
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            list-style: none;
+        }
+        nav ul li a{
+            text-decoration: none;
+            color: black;
+        }
+        .DROPDOWN{
+            /* padding: 20px; */
+            position: relative;
+            cursor: pointer;
+        }
+        .DROPDOWN:hover ul{
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            position: absolute;
+            left: 0;
+            top: 20px;
+        }
+        .DROPDOWN ul{
+            display: none;
+            /* display: inline; */
+            width: 200px;
+            height: 200px;
+            /* padding: 20px auto; */
+            background-color: blanchedalmond;
+            padding: 20px;
+            /* display: flex;
+            flex-direction: column; */
+
+        }
+        .DROPDOWN ul li{
+            margin: 20px 0px;
+            width: auto;
+            /* background-color: red; */
+        }
+        .DROPDOWN ul li:hover{
+            text-decoration: underline;
+        }
+
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="#">HOME</a></li>
+            <li><a href="#">about</a></li>
+            <li><a href="#">section</a></li>
+            <li class="DROPDOWN">DROPDOWN
+                <ul>
+                    <li><a href="#">about</a></li>
+                    <li><a href="#">test</a></li>
+                    <li><a href="#">kuch bhi</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+</body>
+</html>

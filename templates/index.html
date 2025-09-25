@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NORMAL</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='logo_logo.ico') }}">
+    <link rel="stylesheet" href="..\static\style.css" />
+    <link rel="stylesheet" href="..\static\section3-test.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="logo"><img src="../static/image/logo.png" alt=""></div>
+      <div class="nav_list">
+        <ul>
+          <li><a href="">HOME</a></li>
+          <li><a href="">ABOUT</a></li>
+          <li><a href="">RESOURCES</a></li>
+          <li><a href="">TEST</a></li>
+          <li><a href="">APPOINTMENT</a></li>
+        </ul>
+      </div>
+      <div class="login_nav">
+          <form action="/login">
+              <button type="button btn2"><a class="navbar_btn_a">LOGIN <br />
+                <span>for students</span></a>
+              </button>
+          </form>
+
+        <button type="button btn2"><a class="navbar_btn_a" href="">ADMIN <br />
+          <span>Dashboard</span></a>
+        </button>
+      </div>
+
+      <div class="toggle_btn">
+        <i onclick="showSidebar()" class="fa-solid fa-sliders"></i>
+        <div class="nav_list sidebar">
+        <ul>
+          <li onclick="hideSidebar()"><a href="#" class="cross_toggle"><i class="fa-solid fa-xmark"></i></a></li>
+          <li><a href="">HOME</a></li>
+          <li><a href="">ABOUT</a></li>
+          <li><a href="">RESOURCES</a></li>
+          <li><a href="">TEST</a></li>
+          <li><a href="">APPOINTMENT</a></li>
+        </ul>
+      </div>
+      </div>
+    </nav>
+
+    <!-- header -->
+
+
+    <header>
+      <div class="text_area">
+        <img src="../static/image/Screenshot%202025-09-08%20215857.png" alt="" />
+      </div>
+      <div class="imagehead">
+        <img src="../static/image/1694_U1RVRElPIEtBVCAzOTItMTE.png" alt="" />
+      </div>
+    </header>
+
+    <!-- severe help btn -->
+     <a href="#" id="severe_help_btn"><img src="../static/image/severe.png" alt=""></a>
+    <!-- section12 - game -->
+
+    <section class="game_sec12">
+      <div class="text_area_sec12">
+        <div class="game_heading">
+          GAMES - <span>Find your calm in a pixelated world.</span>
+        </div>
+        <div class="boxes_game">
+          <div class="box_sec12 box1">
+            <div class="text_area_box">
+              <h1>BREATE EASY</h1>
+              <p>
+                Find your calm with guided breathing exercises.Follow the
+                balloon as it guides your breath rhythm.Just a few minutes can
+                transform your day.
+              </p>
+            </div>
+
+                  <img src="../static/image/game1.png" alt="" />
+
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- section2 -->
+    <section class="sec2">
+      <div class="text_area_sec2">
+        <div class="sec2_heading">Connect. Share. Support.</div>
+        <div class="boxes_sec2">
+          <div class="box_sec2">
+            <div class="text_box_sec2">
+              <span><a href="#">Anonymous Peer Group</a></span>
+              <p>
+                A secure, anonymous community where individuals connect,
+                exchange stories, and receive peer-to-peer support to strengthen
+                resilience and mental health
+              </p>
+            </div>
+            <img src="../static/image/peer%20learning.png" alt="" />
+            
+          </div>
+
+          <div class="box_sec2">
+            <img src="../static/image/AI.png" alt="" />
+            <div class="text_box_sec2">
+              <span
+                ><a
+            
+                  href="#"
+                  >AI ChatBox</a
+                ></span
+              >
+              <p>
+                An AI-powered chatbox offering instant guidance, resources, and
+                responses to support your mental well-being anytime,
+                anywhere.
+              </p>
+            </div>
+          </div>
+          <div class="box_sec2">
+            <div class="text_box_sec2">
+              <span><a href="#">Volunteer ChatBox</a></span>
+              <p>
+                A supportive peer volunteer-led chatbox where trained peers offer
+                empathetic listening, guidance, and encouragement in a safe,
+                confidential environment.
+              </p>
+            </div>
+            <img src="../static/image/volenteer.png" alt="" />
+          </div>
+          <div class="box_sec2">
+            <img src="../static/image/conseller.png" alt="" />
+            <div class="text_box_sec2">
+              <span><a href="#">Counselor ChatBox</a></span>
+              <p>
+                A safe digital space where professional counselors listen,
+                guide, and provide trusted mental health care through real-time
+                confidential chat support
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- section3 -->
+     <div class="section3_heading">
+      HOW NORMAL ARE YOU?
+     </div>
+     <div class="container" style="display: flex; width: 100%; height: 100%">
+      <div class="section">
+        <img class="section_img" src="../static/image/depresion.png" alt="" />
+        <div class="afterHover">
+          <div class="heading">Low-Key Vibes Check</div>
+          <div class="details">
+            <img src="..\static\image\low_key_paragraph.png" alt="">
+          </div>
+          <div class="img_section">
+            <img src="../static/image/depresion_boi.png" alt="" />
+          </div>
+        </div>
+      </div>
+      <div class="section">
+        <img class="section_img" src="../static/image/overthinking.png" alt="" />
+        <div class="afterHover">
+          <div class="heading">Overthinking Meter</div>
+          <div class="details">
+           <img src="../static/image/overthinking_meter_pargraph.png" alt="">
+
+          </div>
+          <div class="img_section">
+
+              <img src="../static/image/brain_.png" alt=""/>
+          </div>
+        </div>
+      </div>
+      <div class="section">
+        <img
+          class="section_img"
+          style="height: 450px"
+          src="../static/image/brain battery.png"
+          alt=""
+        />
+        <div class="afterHover">
+          <div class="heading">Brain Battery %</div>
+          <div class="details">
+            <img src="../static/image/brain_battery_paragraph.png" alt="">
+          </div>
+          <div class="img_section">
+
+              <img src="../static/image/battery_img.png" alt="" />
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- section4 - > help -->
+
+    <section class="sec4">
+      <div class="text_area_sec4">
+        <div class="sec4_heading">help</div>
+        <div class="boxes_sec4">
+          <div class="box_sec4">
+            <h1>Test Based Resources</h1>
+            <p>
+              Test-based resources provide focused, specific resources depending upon the severity of the issue and availability of matter.
+            </p>
+          </div>
+          <div class="box_sec4">
+            <h1>General Resources</h1>
+            <p>
+              General resources offering reliable information and helpful
+              strategies for maintaining mental health
+            </p>
+          </div>
+          <div class="box_sec4">
+            <h1>Specific Resources</h1>
+            <p>
+              Targeted resources tailored to address particular mental health
+              challenges and personal needs
+            </p>
+          </div>
+          <div class="box_sec4">
+            <h1>Helplines</h1>
+            <p>
+              Helplines offering 24/7 support towards all and any mental health concerns, from slight to severe.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+        © 2025 Tech Arsenal. Created for Smart India Hackathon'25
+    </footer>
+
+    <!-- js files -->
+     <script src="..\static\script.js"></script>
+  </body>
+</html>

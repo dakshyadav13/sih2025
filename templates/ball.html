@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Breathe Easy - Balloon Meditation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            color: white;
+        }
+        .container {
+            text-align: center;
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .breathing-area {
+            position: relative;
+            width: 400px;
+            height: 400px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px 0;
+        }
+        .balloon {
+            width: 100px;
+            height: 120px;
+            background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            position: relative;
+            transition: all 1s ease-in-out;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3), inset -10px -10px 20px rgba(0,0,0,0.1);
+            transform-origin: center bottom;
+        }
+        .balloon::before {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 30px;
+            background: #333;
+            border-radius: 2px;
+        }
+        .balloon.inhale {
+            width: 250px;
+            height: 300px;
+            background: linear-gradient(135deg, #4ecdc4, #44a08d);
+            filter: brightness(1.2);
+            transform: scale(1) translateY(-20px);
+        }
+        .balloon.hold {
+            width: 250px;
+            height: 300px;
+            background: linear-gradient(135deg, #4ecdc4, #44a08d);
+            filter: brightness(1.2);
+            transform: scale(1.05) translateY(-20px);
+            animation: pulse 0.5s ease-in-out infinite alternate;
+        }
+        .balloon.exhale {
+            width: 80px;
+            height: 100px;
+            background: linear-gradient(135deg, #ffeaa7, #fdcb6e);
+            transform: scale(0.8) translateY(10px);
+        }
+        @keyframes pulse {
+            from { transform: scale(1.05) translateY(-20px); }
+            to { transform: scale(1.1) translateY(-25px); }
+        }
+        @keyframes pop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.3); }
+            100% { transform: scale(0.8); }
+        }
+        .balloon.pop {
+            animation: pop 0.3s ease-out;
+        }
+        .instruction-text {
+            font-size: 2.5rem;
+            font-weight: 300;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            transition: all 0.5s ease;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .timer-display {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            opacity: 0.8;
+            min-height: 30px;
+        }
+        .progress-ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 350px;
+            height: 350px;
+        }
+        .progress-ring circle {
+            fill: transparent;
+            stroke: rgba(255,255,255,0.3);
+            stroke-width: 4;
+            transform-origin: center;
+            transform: rotate(-90deg);
+        }
+        .progress-ring .progress {
+            stroke: #fff;
+            stroke-width: 6;
+            stroke-linecap: round;
+            transition: stroke-dasharray 0.1s linear;
+        }
+        .stats {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        .streak {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+        .total-breaths {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+        .controls {
+            position: absolute;
+            bottom: 30px;
+            display: flex;
+            gap: 15px;
+        }
+        .btn {
+            background: rgba(255,255,255,0.2);
+            border: 2px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        .btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: scale(1.05);
+        }
+        .btn.active {
+            background: rgba(255,255,255,0.4);
+            border-color: #fff;
+        }
+        .reward-popup {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: linear-gradient(135deg, #ffd700, #ffed4e);
+            color: #333;
+            padding: 30px;
+            border-radius: 20px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-align: center;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+            z-index: 1000;
+            transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        .reward-popup.show {
+            transform: translate(-50%, -50%) scale(1);
+        }
+        .floating-particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255,255,255,0.6);
+            border-radius: 50%;
+            animation: float 8s infinite linear;
+        }
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        .welcome-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            backdrop-filter: blur(10px);
+        }
+        .welcome-title {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .welcome-subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+            text-align: center;
+            max-width: 600px;
+            line-height: 1.6;
+        }
+        .start-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: none;
+            color: white;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .start-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+        @media (max-width: 768px) {
+            .breathing-area {
+                width: 300px;
+                height: 300px;
+            }
+            .progress-ring {
+                width: 280px;
+                height: 280px;
+            }
+            .instruction-text {
+                font-size: 2rem;
+            }
+            .stats {
+                top: 15px;
+                right: 15px;
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="welcome-screen" id="welcomeScreen">
+            <div class="welcome-title">🎈 Breathe Easy</div>
+            <div class="welcome-subtitle">
+                Find your calm with guided breathing exercises.<br>
+                Follow the balloon as it guides your breath rhythm.<br>
+                Just a few minutes can transform your day.
+            </div>
+            <button class="start-btn" onclick="startBreathing()">Begin Your Journey</button>
+        </div>
+        <div class="floating-particles" id="particles"></div>
+        <div class="instruction-text" id="instruction">Ready to breathe?</div>
+        <div class="timer-display" id="timer"></div>
+        
+        <div class="breathing-area">
+            <svg class="progress-ring">
+                <circle cx="175" cy="175" r="170" class="progress-bg"></circle>
+                <circle cx="175" cy="175" r="170" class="progress" id="progressCircle"></circle>
+            </svg>
+            <div class="balloon" id="balloon"></div>
+        </div>
+        <div class="stats">
+            <div class="streak">🔥 Streak: <span id="streak">0</span></div>
+            <div class="total-breaths">💨 Total: <span id="totalBreaths">0</span></div>
+        </div>
+        <div class="controls">
+            <button class="btn" id="startBtn" onclick="toggleBreathing()">Start</button>
+            <button class="btn" onclick="resetSession()">Reset</button>
+            <button class="btn" id="patternBtn" onclick="changePattern()">4-4-4 Pattern</button>
+        </div>
+        <div class="reward-popup" id="rewardPopup">
+            <div id="rewardText">Amazing! 🌟</div>
+        </div>
+    </div>
+    <script>
+        class BreathingExercise {
+            constructor() {
+                this.balloon = document.getElementById('balloon');
+                this.instruction = document.getElementById('instruction');
+                this.timer = document.getElementById('timer');
+                this.startBtn = document.getElementById('startBtn');
+                this.progressCircle = document.getElementById('progressCircle');
+                this.streakElement = document.getElementById('streak');
+                this.totalBreathsElement = document.getElementById('totalBreaths');
+                this.rewardPopup = document.getElementById('rewardPopup');
+                this.patternBtn = document.getElementById('patternBtn');
+                
+                this.isRunning = false;
+                this.currentPhase = 'ready'; // ready, inhale, hold, exhale, pause
+                this.phaseTimer = 0;
+                this.cycleCount = 0;
+                this.streak = parseInt(localStorage.getItem('breathingStreak') || '0');
+                this.totalBreaths = parseInt(localStorage.getItem('totalBreaths') || '0');
+                this.lastBreathingDate = localStorage.getItem('lastBreathingDate');
+                
+                // Breathing patterns
+                this.patterns = {
+                    '4-4-4-4': { inhale: 4, hold: 4, exhale: 4, pause: 4 },
+                    '4-7-8-2': { inhale: 4, hold: 7, exhale: 8, pause: 2 }
+                };
+                this.currentPattern = '4-4-4-4';
+                
+                this.checkStreak();
+                this.updateDisplay();
+                this.createParticles();
+                this.setupProgressRing();
+                // Ensure correct initial pattern button label
+                this.updatePatternButtonLabel();
+            }
+            checkStreak() {
+                const today = new Date().toDateString();
+                if (this.lastBreathingDate && this.lastBreathingDate !== today) {
+                    const lastDate = new Date(this.lastBreathingDate);
+                    const todayDate = new Date(today);
+                    const diffTime = Math.abs(todayDate - lastDate);
+                    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                    
+                    if (diffDays > 1) {
+                        this.streak = 0; // Reset streak if more than 1 day gap
+                        localStorage.setItem('breathingStreak', '0');
+                    }
+                } else if (!this.lastBreathingDate) {
+                    // First time user
+                    this.streak = 0;
+                }
+            }
+            setupProgressRing() {
+                const circle = this.progressCircle;
+                const radius = circle.r.baseVal.value;
+                const circumference = radius * 2 * Math.PI;
+                
+                circle.style.strokeDasharray = `${circumference} ${circumference}`;
+                circle.style.strokeDashoffset = circumference;
+            }
+            updateProgress(progress) {
+                const circle = this.progressCircle;
+                const radius = circle.r.baseVal.value;
+                const circumference = radius * 2 * Math.PI;
+                const offset = circumference - (progress / 100) * circumference;
+                
+                circle.style.strokeDashoffset = offset;
+            }
+            createParticles() {
+                const particlesContainer = document.getElementById('particles');
+                
+                setInterval(() => {
+                    if (this.isRunning) {
+                        const particle = document.createElement('div');
+                        particle.className = 'particle';
+                        particle.style.left = Math.random() * 100 + '%';
+                        particle.style.animationDelay = '0s';
+                        particle.style.animationDuration = (Math.random() * 3 + 5) + 's';
+                        
+                        particlesContainer.appendChild(particle);
+                        
+                        setTimeout(() => {
+                            particle.remove();
+                        }, 8000);
+                    }
+                }, 500);
+            }
+            updateDisplay() {
+                this.streakElement.textContent = this.streak;
+                this.totalBreathsElement.textContent = this.totalBreaths;
+            }
+            saveProgress() {
+                localStorage.setItem('breathingStreak', this.streak.toString());
+                localStorage.setItem('totalBreaths', this.totalBreaths.toString());
+                localStorage.setItem('lastBreathingDate', new Date().toDateString());
+            }
+            showReward(message) {
+                const rewardText = document.getElementById('rewardText');
+                rewardText.textContent = message;
+                this.rewardPopup.classList.add('show');
+                
+                setTimeout(() => {
+                    this.rewardPopup.classList.remove('show');
+                }, 2000);
+            }
+            toggleBreathing() {
+                if (this.isRunning) {
+                    this.stopBreathing();
+                } else {
+                    this.startBreathingCycle();
+                }
+            }
+            startBreathingCycle() {
+                this.isRunning = true;
+                this.startBtn.textContent = 'Stop';
+                this.startBtn.classList.add('active');
+                this.currentPhase = 'inhale';
+                this.phaseTimer = 0;
+                this.breathingLoop();
+            }
+            stopBreathing() {
+                this.isRunning = false;
+                this.startBtn.textContent = 'Start';
+                this.startBtn.classList.remove('active');
+                // Reset balloon to initial state
+                this.balloon.style.width = '100px';
+                this.balloon.style.height = '120px';
+                this.balloon.style.background = 'linear-gradient(135deg, #ff6b6b, #ee5a52)';
+                this.balloon.style.transform = 'scale(1) translateY(0px)';
+                this.balloon.style.filter = 'brightness(1)';
+                this.instruction.textContent = 'Ready to breathe?';
+                this.timer.textContent = '';
+                this.updateProgress(0);
+            }
+            breathingLoop() {
+                if (!this.isRunning) return;
+                const pattern = this.patterns[this.currentPattern];
+                const phaseDuration = pattern[this.currentPhase];
+                const progress = (this.phaseTimer / phaseDuration) * 100;
+                this.updateProgress(progress);
+                this.timer.textContent = Math.ceil(phaseDuration - this.phaseTimer);
+                // Update balloon and instruction based on phase
+                switch (this.currentPhase) {
+                    case 'inhale':
+                        this.balloon.className = 'balloon inhale';
+                        this.instruction.textContent = 'Breathe In... 🌬️';
+                        break;
+                    case 'hold':
+                        this.balloon.className = 'balloon hold';
+                        this.instruction.textContent = 'Hold... ⏸️';
+                        break;
+                    case 'exhale':
+                        this.balloon.className = 'balloon exhale pop';
+                        this.instruction.textContent = 'Breathe Out... 💨';
+                        break;
+                    case 'pause':
+                        this.balloon.className = 'balloon';
+                        this.instruction.textContent = 'Rest... 😌';
+                        break;
+                }
+                this.phaseTimer += 0.1;
+                if (this.phaseTimer >= phaseDuration) {
+                    this.nextPhase();
+                }
+                setTimeout(() => this.breathingLoop(), 100);
+            }
+            nextPhase() {
+                this.phaseTimer = 0;
+                
+                switch (this.currentPhase) {
+                    case 'inhale':
+                        this.currentPhase = 'hold';
+                        break;
+                    case 'hold':
+                        this.currentPhase = 'exhale';
+                        break;
+                    case 'exhale':
+                        this.currentPhase = 'pause';
+                        break;
+                    case 'pause':
+                        this.currentPhase = 'inhale';
+                        this.completeCycle();
+                        break;
+                }
+            }
+            completeCycle() {
+                this.cycleCount++;
+                this.totalBreaths++;
+                
+                // Milestone rewards
+                if (this.cycleCount === 1) {
+                    this.showReward("First breath complete! 🌟");
+                } else if (this.cycleCount === 5) {
+                    this.streak++;
+                    this.showReward("5 cycles! You're finding your rhythm! ✨");
+                } else if (this.cycleCount === 10) {
+                    this.showReward("10 cycles! You're in the zone! 🧘‍♀️");
+                } else if (this.cycleCount % 15 === 0) {
+                    this.showReward(`${this.cycleCount} cycles! You're absolutely crushing it! 🏆`);
+                }
+                
+                this.updateDisplay();
+                this.saveProgress();
+            }
+            resetSession() {
+                this.stopBreathing();
+                this.cycleCount = 0;
+                this.instruction.textContent = 'Ready to breathe?';
+            }
+            updatePatternButtonLabel() {
+                // Always show the current pattern, not the alternate
+                if(this.currentPattern === '4-4-4-4') {
+                    this.patternBtn.textContent = '4-4-4 Pattern';
+                } else {
+                    this.patternBtn.textContent = '4-7-8 Pattern';
+                }
+            }
+            changePattern() {
+                this.currentPattern = this.currentPattern === '4-4-4-4' ? '4-7-8-2' : '4-4-4-4';
+                this.updatePatternButtonLabel();
+                if (this.isRunning) {
+                    this.stopBreathing();
+                }
+            }
+        }
+        let breathingApp;
+        function startBreathing() {
+            document.getElementById('welcomeScreen').style.display = 'none';
+            breathingApp = new BreathingExercise();
+        }
+        function toggleBreathing() {
+            breathingApp.toggleBreathing();
+        }
+        function resetSession() {
+            breathingApp.resetSession();
+        }
+        function changePattern() {
+            breathingApp.changePattern();
+        }
+        // Initialize particles system
+        window.addEventListener('load', () => {
+            // App will be initialized when user clicks start
+        });
+    </script>
+</body>
+</html>
